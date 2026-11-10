@@ -1,0 +1,8 @@
+Vehicle ID,Vehicle Type,Frame Number,Timestamp (seconds),Signal State,Event
+499,Car,540,18.0,RED,Red-light stop-line crossing
+557,Car,762,25.4,RED,Red-light stop-line crossing
+763,Car,1169,38.97,RED,Red-light stop-line crossing
+707,Car,1173,39.1,RED,Red-light stop-line crossing
+1020,Car,1342,44.73,RED,Red-light stop-line crossing
+1001,Car,1355,45.17,RED,Red-light stop-line crossing
+2427,Car,5101,170.03,RED,Red-light stop-line crossing

@@ -1,0 +1,33 @@
+# Python environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Mac system files
+.DS_Store
+
+# Datasets and large files
+data/
+*.zip
+
+# Generated outputs and debug files
+outputs/
+archive_runs/
+debug_samples/
+*.mp4
+
+# Trained model weights
+*.pt
+*.pth
+*.onnx
+
+# Training outputs
+runs/
+
+# Environment secrets
+.env
+
+# Temporary files
+*.log
+.ipynb_checkpoints/
