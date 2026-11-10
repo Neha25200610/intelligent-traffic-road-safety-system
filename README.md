@@ -1,18 +1,20 @@
 # Intelligent Traffic and Road Safety Detection System
 
+AI-powered traffic monitoring and road safety analysis using YOLO, OpenCV, and machine learning.
+
 ## 1. Project Overview
 
 The Intelligent Traffic and Road Safety Detection System is an AI-powered project designed to detect vehicles, monitor traffic conditions, and analyze road traffic using computer vision and deep learning techniques.
 
-The system uses the YOLO object detection model to identify vehicles in traffic images and videos. It also explores vehicle tracking and traffic density estimation to support intelligent traffic monitoring.
+The system uses YOLO object detection to identify vehicles in traffic images and videos. It also includes vehicle tracking, traffic density estimation, helmet detection, number plate recognition, and traffic violation monitoring.
 
-A Streamlit dashboard provides a user-friendly interface to view traffic statistics and upload traffic images or videos.
+A Streamlit dashboard provides a user-friendly interface to view traffic statistics, reports, and detection results.
 
 ## 2. Problem Statement
 
 Traditional traffic monitoring systems often require manual observation and monitoring. This can be time-consuming and may lead to inaccurate traffic analysis.
 
-This project aims to develop an automated traffic monitoring system using artificial intelligence and computer vision to improve vehicle detection and traffic analysis.
+This project aims to develop an automated traffic monitoring system using artificial intelligence and computer vision to improve vehicle detection, traffic analysis, and road safety monitoring.
 
 ## 3. Objectives
 
@@ -20,9 +22,11 @@ This project aims to develop an automated traffic monitoring system using artifi
 - Classify vehicles into different categories.
 - Track vehicles across video frames.
 - Estimate traffic density.
+- Detect motorcycle helmets.
+- Recognize vehicle number plates.
+- Monitor traffic signals and violations.
 - Generate traffic analysis reports.
 - Develop an interactive traffic monitoring dashboard.
-- Explore road safety monitoring using AI.
 
 ## 4. Technologies Used
 
@@ -30,11 +34,13 @@ This project aims to develop an automated traffic monitoring system using artifi
 |---|---|
 | Python | Programming language |
 | OpenCV | Image and video processing |
-| YOLOv8 | Vehicle detection |
+| YOLOv8 | Object detection |
 | PyTorch | Deep learning framework |
 | ByteTrack | Object tracking |
+| EasyOCR | Number plate text recognition |
 | Pandas | Data analysis |
 | Streamlit | Interactive dashboard |
+| SQLite | Database management |
 | Google Colab | Initial model development |
 | VS Code | Local development environment |
 
@@ -44,55 +50,67 @@ This project aims to develop an automated traffic monitoring system using artifi
 Uses YOLO to identify vehicles such as cars, buses, trucks, and motorcycles.
 
 ### Module 2: Vehicle Tracking
-Uses ByteTrack to assign tracking IDs to detected vehicles across video frames.
+Uses object tracking to assign tracking IDs to detected vehicles across video frames.
 
 ### Module 3: Traffic Density Estimation
 Analyzes vehicle counts across video frames to estimate traffic density.
 
-### Module 4: Data Analysis and Reporting
-Uses Pandas to organize detection results and generate CSV reports.
+### Module 4: Helmet Detection
+Uses a trained YOLO model to detect motorcycle riders with and without helmets.
 
-### Module 5: Dashboard
-Uses Streamlit to display vehicle statistics, traffic density information, charts, and uploaded traffic media.
+### Module 5: Number Plate Recognition
+Detects vehicle number plates and applies OCR to extract readable text.
+
+### Module 6: Traffic Signal and Violation Detection
+Analyzes traffic signals and identifies potential traffic rule violations.
+
+### Module 7: Data Analysis and Reporting
+Uses Pandas to organize detection results and generate CSV and PDF reports.
+
+### Module 8: Dashboard
+Uses Streamlit to display vehicle statistics, traffic density information, charts, reports, and detection results.
 
 ## 6. Project Structure
 
 ```text
 Intelligent traffic code/
 │
-├── traffic_detection.ipynb
 ├── app.py
+├── database.py
+├── detect_video.py
+├── helmet_detection.py
+├── number_plate_detection.py
+├── traffic_light_detection.py
+├── traffic_density.py
+├── traffic_violation.py
+├── track_video.py
+├── pdf_report.py
 ├── README.md
 │
 ├── data/
-│   ├── images/
-│   └── videos/
-│
 ├── models/
 ├── outputs/
 ├── reports/
+├── runs/
 └── venv/
 ```
 
-## 7. Current Implementation
+## 7. Experimental Results
 
-The initial development and experiments were performed using Google Colab.
+The project has been tested using traffic videos and trained detection models.
 
-The following results were obtained during the experiments:
+Vehicle detection results from the latest experiment:
 
-- Total tracked vehicle IDs: 37
-- Cars: 19
-- Buses: 11
-- Trucks: 7
-- Motorcycles: 0
-- Average vehicles per frame: 0.96
-- Maximum vehicles in a frame: 7
-- Total video frames analyzed: 830
-- Busiest frame: 303
+- Cars: 494
+- Motorcycles: 22
+- Buses: 50
+- Trucks: 42
+- Total vehicle detections: 608
+- Total video frames processed: 559
 
-These are results from the initial traffic video experiment, not live dashboard measurements.
+Other modules generate separate reports for vehicle tracking, traffic density, helmet detection, number plate recognition, and traffic violations.
 
-The Streamlit dashboard has also been created and launched locally in VS Code.
+Results may vary depending on the input video, model, and detection settings.
 
 ## 8. How to Run the Project
 
@@ -108,6 +126,8 @@ source venv/bin/activate
 python -m pip install streamlit pandas opencv-python ultralytics
 ```
 
+Install any additional dependencies required by the individual modules.
+
 ### Step 3: Run the dashboard
 
 ```bash
@@ -122,23 +142,25 @@ http://localhost:8501
 
 ## 9. Future Enhancements
 
-- Integrate real-time YOLO detection into the dashboard.
-- Implement helmet detection.
-- Implement number plate recognition.
-- Detect traffic rule violations.
+- Improve real-time vehicle detection.
+- Enhance number plate recognition accuracy.
+- Improve helmet detection performance.
+- Integrate real-time traffic monitoring.
+- Improve traffic violation detection.
 - Add vehicle speed estimation.
-- Integrate a database for storing violation records.
-- Generate detailed traffic analysis reports.
-- Develop a real-time traffic monitoring interface.
+- Enhance database-based analytics.
+- Deploy the dashboard online.
 
 ## 10. Conclusion
 
 The Intelligent Traffic and Road Safety Detection System demonstrates how computer vision and deep learning can be applied to automated traffic monitoring.
 
-The project combines vehicle detection, tracking, traffic density analysis, data reporting, and dashboard development. Further enhancements will focus on integrating road safety violation detection and real-time traffic monitoring.
+The project combines vehicle detection, tracking, traffic density analysis, helmet detection, number plate recognition, traffic signal monitoring, reporting, and dashboard development.
+
+It provides a foundation for developing intelligent traffic monitoring and road safety applications.
 
 ---
 
 **Project:** Intelligent Traffic and Road Safety Detection System  
-**Development Environment:** Google Colab and Visual Studio Code  
-**Programming Language:** Python
+**Programming Language:** Python  
+**Development Environment:** Google Colab and Visual Studio Code
