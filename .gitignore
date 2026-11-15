@@ -30,4 +30,4 @@ runs/
 
 # Temporary files
 *.log
-.ipynb_checkpoints/
+.ipynb_checkpoints/traffic_detection_.ipynb
