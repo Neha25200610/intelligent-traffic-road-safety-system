@@ -6,6 +6,7 @@ from datetime import datetime
 
 from database import get_red_light_violations
 from pdf_report import generate_traffic_pdf
+from integration.vehicle_detection import run_vehicle_detection
 
 
 # =====================================================
@@ -403,6 +404,97 @@ elif menu == "Vehicle Detection":
         "YOLO-based vehicle detection identifies vehicles in the input video "
         "and displays the annotated output."
     )
+
+    st.divider()
+    st.subheader("Run New Vehicle Detection")
+
+    input_dir = os.path.join(BASE_DIR, "data", "videos")
+
+    available_videos = sorted(
+        f for f in os.listdir(input_dir)
+        if f.lower().endswith((".mp4", ".mov", ".avi"))
+    ) if os.path.isdir(input_dir) else []
+
+    if available_videos:
+        selected_video = st.selectbox(
+            "Select an input traffic video",
+            available_videos,
+            key="phase1_vehicle_input"
+        )
+
+        if st.button("Run Vehicle Detection", type="primary"):
+            progress_bar = st.progress(0)
+            progress_text = st.empty()
+
+            def update_progress(current, total):
+                percentage = current / total if total else 0
+                progress_bar.progress(min(percentage, 1.0))
+                progress_text.text(
+                    f"Processing frame {current} of {total}"
+                )
+
+            try:
+                result = run_vehicle_detection(
+                    os.path.join(input_dir, selected_video),
+                    os.path.join(VIDEO_DIR, "phase1_vehicle_detection.mp4"),
+                    os.path.join(REPORT_DIR, "phase1_vehicle_detection.csv"),
+                    progress_callback=update_progress
+                )
+
+                st.session_state["phase1_vehicle_detection_result"] = result
+                progress_bar.progress(1.0)
+                progress_text.success("Vehicle detection completed!")
+
+            except Exception as e:
+                st.error(f"Vehicle detection failed: {e}")
+
+    else:
+        st.warning("No input videos found in data/videos.")
+
+    latest_result = st.session_state.get(
+        "phase1_vehicle_detection_result"
+    )
+
+    if latest_result:
+        st.subheader("Latest Detection Results")
+
+        counts = latest_result["vehicle_counts"]
+        col1, col2, col3, col4, col5 = st.columns(5)
+
+        col1.metric("Cars", counts["car"])
+        col2.metric("Motorcycles", counts["motorcycle"])
+        col3.metric("Buses", counts["bus"])
+        col4.metric("Trucks", counts["truck"])
+        col5.metric("Total Detections", sum(counts.values()))
+
+        result_df = pd.read_csv(latest_result["report_file"])
+
+        st.dataframe(
+            result_df,
+            use_container_width=True,
+            hide_index=True
+        )
+
+        with open(latest_result["report_file"], "rb") as file:
+            st.download_button(
+                "Download New Detection Report",
+                data=file.read(),
+                file_name="phase1_vehicle_detection.csv",
+                mime="text/csv"
+            )
+
+        st.subheader("Newly Processed Video")
+
+        processed_video = latest_result["output_video"]
+
+        if os.path.isfile(processed_video) and os.path.getsize(processed_video) > 0:
+            st.video(processed_video)
+            st.caption("Browser-compatible H.264 video")
+        else:
+            st.error("Processed H.264 video was not found.")
+
+
+    st.divider()
 
     if detection_df is not None:
         st.subheader("Vehicle Detection Report")
